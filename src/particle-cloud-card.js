@@ -122,11 +122,6 @@ class ParticleCloudCard extends LitElement {
     };
   }
 
-  // Optional hook for a config editor element (safe to include even if you don't provide one)
-  static getConfigElement() {
-    return document.createElement("hui-error-card");
-  }
-
   // ------------------------------
   // Lifecycle
   // ------------------------------
@@ -659,8 +654,29 @@ class ParticleCloudCard extends LitElement {
   }
 
   render() {
+    const entityId =
+      this._config?.entity ||
+      this._config?.entity_speed ||
+      this._config?.entity_color ||
+      this._config?.entity_size;
+
+    const stateObj = entityId ? this._hass?.states?.[entityId] : null;
+
+    const name =
+      this._config?.name ||
+      stateObj?.attributes?.friendly_name ||
+      "";
+
+    const value = stateObj?.state;
+    const unit = stateObj?.attributes?.unit_of_measurement || "";
+
+    const header =
+      name && value !== undefined
+        ? `${name} · ${value} ${unit}`.trim()
+        : name || "";
+
     return html`
-      <ha-card>
+      <ha-card .header=${header}>
         <div class="container">
           <canvas></canvas>
         </div>

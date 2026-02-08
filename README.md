@@ -14,8 +14,8 @@ A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **a
 ## Screenshots
 
 Add your own screenshots here:
-- `screenshots/preview-dark.png`
-- `screenshots/preview-light.png`
+- <p align="center"><img src="images/dark.png" width="600"></p>
+- <p align="center"><img src="images/light.png" width="600"></p>
 
 ---
 
@@ -116,4 +116,3 @@ Created by Christian Gruffman.
 
 ## License
 MIT
-
