@@ -73,12 +73,12 @@ palette:
   - [0.85, "#ffd166"]
   - [0.95, "#ff9f5a"]
   - [1.00, "#ff4d4d"]
-
+```
 ---
 
-##Configuration
+## Configuration
 
-##Entities
+### Entities
 
 You can drive speed/color/size from the same entity, or separate entities:
 - entity: fallback entity used for all features unless overridden
@@ -86,7 +86,7 @@ You can drive speed/color/size from the same entity, or separate entities:
 - entity_color: drives palette interpolation
 - entity_size: drives mist blur + overall “density” feel
 
-##Normalization
+### Normalization
 - min, max: defaults for all features
 - speed_min, speed_max
 - color_min, color_max
@@ -94,14 +94,14 @@ You can drive speed/color/size from the same entity, or separate entities:
 
 Note: normalization is log-like. For “power-like” sensors, set max to a realistic peak.
 
-##Visual / performance
+### Visual / performance
 - particle_count (default 220): higher = heavier CPU (O(N²))
 - fps (default 24)
 - mist (default true)
 - show_value (default true)
 - debug (default false)
 
-Palette
+### Palette
 
 palette is a list of [stop, color] where stop is 0..1:
 ```yaml
@@ -109,10 +109,11 @@ palette:
   - [0, "#00ff00"]
   - [0.5, "#ffff00"]
   - [1, "#ff0000"]
+```
 
-##Credits
+## Credits
 Created by Christian Gruffman.
 
-##License
+## License
 MIT
 
