@@ -125,12 +125,8 @@ class ParticleCloudCard extends s {
 
   set hass(hass) {
     this._hass = hass;
+    this.requestUpdate();
     if (this._initialized) this._updateTargets();
-  }
-
-  // Robustness: also update targets when HA triggers an update cycle
-  updated(changedProps) {
-    if (changedProps.has("_hass") && this._initialized) this._updateTargets();
   }
 
   // Helps HA layout estimate the card height
