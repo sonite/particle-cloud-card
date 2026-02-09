@@ -60,25 +60,37 @@ Basic example:
 
 ```yaml
 type: custom:particle-cloud-card
-entity: sensor.ams_ec5d_p
+entity: sensor.power_consumption
 name: Power Consumption
-fps: 24
+# Motion / performance
+mode: swarm
 particle_count: 320
-# Lower the particle cound if it lags
-# Range tuning (Watts) - adjust to your home
-speed_min: 200
-speed_max: 2500
-color_min: 200
-color_max: 4000
-size_min: 200
-size_max: 2500
+fps: 24
 
+# Visuals
+mist: true
+show_mode_toggle: true
+debug: false
+
+# Normalization (low / normal / high)
+normal: 3000
+low: 1500
+high: 4500
+
+# Baselines at "normal" (0..1)
+normal_speed: 0.35
+normal_color: 0.50
+normal_size: 0.45
+
+# Palette (low -> mid -> high)
 palette:
   - [0.00, "#4dff88"]
-  - [0.70, "#7dff9f"]
-  - [0.85, "#ffd166"]
-  - [0.95, "#ff9f5a"]
+  - [0.70, "#ffd166"]
   - [1.00, "#ff4d4d"]
+
+# Advanced
+mist_ratio: 0.64
+lerp_factor: 0.06
 ```
 ---
 
@@ -86,29 +98,36 @@ palette:
 
 ### Entities
 
-You can drive speed/color/size from the same entity, or separate entities:
-- entity: fallback entity used for all features unless overridden
-- entity_speed: drives swarm motion intensity
-- entity_color: drives palette interpolation
-- entity_size: drives mist blur + overall “density” feel
+You can drive speed/color/size from the same entity, or separate entities.
+- entity: Primary sensor entity used to drive speed/color/size (unless entity_speed, entity_color, entity_size are set).
+- name: Optional title override shown on the card.
+- entity_speed: Drives motion intensity (calm → fast).
+- entity_color: Drives palette interpolation (low → high color).
+- entity_size: Drives particle size and mist “density” feel.
 
-### Normalization
-- min, max: defaults for all features
-- speed_min, speed_max
-- color_min, color_max
-- size_min, size_max
+#Motion
+- mode: Default motion model (swarm = flocking, vortex = spiral/orbit field).
+- show_mode_toggle: Show a small button on the card to toggle swarm/vortex.
 
-Note: normalization is log-like. For “power-like” sensors, set max to a realistic peak.
+##Performance
+- particle_count: Number of particles (more = nicer, higher CPU/GPU; swarm is heavier than vortex).
+- fps: Frame rate cap for the animation (higher = smoother, higher CPU/GPU).
 
-### Visual / performance
-- particle_count (default 220): higher = heavier CPU (O(N²))
-- fps (default 24)
-- mist (default true)
-- show_value (default true)
-- debug (default false)
+##Normalization (recommended: centered)
+- normal: Center reference value (the “neutral” point where baselines apply).
+- low: Value treated as “low” (defaults to normal * 0.5 if omitted).
+- high: Value treated as “high” (defaults to normal * 1.5 if omitted).
 
-### Palette
+##Baselines at normal (0..1)
+- normal_speed: Baseline particle movement at normal (0..1).
+- normal_color: Baseline palette position at normal (0..1).
+- normal_size: Baseline particle size at normal (0..1).
 
+##Visuals
+- mist: Adds a soft “fog/cloud” layer behind particles for extra depth.
+- debug: Draws an overlay with live values/targets to help tuning.
+
+##Palette
 palette is a list of [stop, color] where stop is 0..1:
 ```yaml
 palette:
@@ -116,6 +135,9 @@ palette:
   - [0.5, "#ffff00"]
   - [1, "#ff0000"]
 ```
+##Advanced
+- mist_ratio: Mist render resolution relative to the card size (lower = faster, higher = sharper).
+- lerp_factor: Smoothing factor for transitions (higher = snappier, lower = more “floaty”).
 
 ## Demo Mode (Manual Slider)
 

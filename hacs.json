@@ -1,7 +1,6 @@
 {
   "name": "Particle Cloud Card",
-  "type": "lovelace",
-  "filename": "particle-cloud-card.js",
   "content_in_root": true,
-  "render_readme": true
+  "render_readme": true,
+  "filename": "particle-cloud-card.js"
 }
