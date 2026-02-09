@@ -164,7 +164,10 @@ mist: true
 ```
 
 ---
-
+## Development vs Release
+- src/ → development source
+- particle-cloud-card.js (root) → built release file used by Home Assistant / HACS
+---
 
 ## Credits
 Created by Christian Gruffman.
