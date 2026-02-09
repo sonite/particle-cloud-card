@@ -1,5 +1,7 @@
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
-[![Particle Cloud Card](images/logo.png)](https://github.com/sonite/particle-cloud-card)
+<p align="center">
+  <img src="images/logo.png" width="120">
+</p>
 # Particle Cloud Card (Swarm + Cloud)
 
 A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **ambient swarm** (boids / flocking) with an optional **cloud “mist” layer** — designed for power usage, but works with any numeric entity.
@@ -15,9 +17,8 @@ A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **a
 
 ## Screenshots
 
-Add your own screenshots here:
-- <p align="center"><img src="images/low-PC.png" width="200"></p>
-- <p align="center"><img src="images/high-PC.png" width="200"></p>
+ <p align="center"><img src="images/low-PC.png" width="200"></p>
+ <p align="center"><img src="images/high-PC.png" width="200"></p>
 
 ---
 
@@ -45,7 +46,7 @@ Add your own screenshots here:
 
 3. Add the card to a dashboard.
 
-> Tip: If you’re iterating, use a cache buster:
+> Tip: If you’re iterating the code, use a cache buster:
 > `/local/particle-cloud-card.js?v=1` and increment `v=` when you update the file.
 
 ---
@@ -59,7 +60,7 @@ type: custom:particle-cloud-card
 entity: sensor.ams_ec5d_p
 fps: 24
 particle_count: 320
-
+# Lower the particle cound if it lags
 # Range tuning (Watts) - adjust to your home
 speed_min: 200
 speed_max: 2500
@@ -112,7 +113,7 @@ palette:
   - [1, "#ff0000"]
 ```
 
-## 🔧 Demo Mode (Manual Slider)
+## Demo Mode (Manual Slider)
 
 If you don’t have a suitable real sensor yet — or just want to explore and tune the visuals — you can drive the Particle Cloud Card using a **manual slider**.
 
@@ -144,7 +145,7 @@ Save.
 
 Home Assistant will create a helper named: input_number.particle_cloud_power
 
-+ Add Card / By entity - find the helper name.
++ (+)Add Card / By entity - find the helper name.
 
 
 ---
@@ -157,7 +158,6 @@ min: 0
 max: 11000
 particle_count: 220
 mist: true
-show_value: false
 ```
 
 ---
