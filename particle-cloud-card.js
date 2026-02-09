@@ -142,13 +142,7 @@ class ParticleCloudCard extends s {
   static getStubConfig() {
     return {
       type: "custom:particle-cloud-card",
-      entity: "sensor.power",
-      min: 0,
-      max: 10000,
-      particle_count: 180,
-      fps: 24,
-      mist: true,
-      show_value: true,
+      entity: "sensor.temperature"
     };
   }
 
@@ -737,7 +731,7 @@ window.customCards.push({
   type: "custom:particle-cloud-card",
   name: "Particle Cloud Card",
   description: "Ambient swarm + mist particle visualization for numeric sensors",
-  preview: true,
+  preview: false,
   documentationURL: "https://github.com/sonite/particle-cloud-card",
   author: "Christian Gruffman",
 });
