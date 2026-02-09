@@ -1,4 +1,5 @@
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![GitHub release](https://img.shields.io/github/v/release/sonite/particle-cloud-card)](https://github.com/sonite/particle-cloud-card/releases)
 <p align="center">
   <img src="images/logo.png" width="120">
 </p>
