@@ -1,7 +1,6 @@
 {
   "name": "Particle Cloud Card",
-  "content_in_root": false,
+  "content_in_root": true,
   "render_readme": true,
   "filename": "particle-cloud-card.js"
-  "logo": "logo.png"
 }
