@@ -92,12 +92,12 @@ palette:
 mist_ratio: 0.64
 lerp_factor: 0.06
 ```
+
 ---
 
 ## Configuration
 
 ### Entities
-
 You can drive speed/color/size from the same entity, or separate entities.
 - entity: Primary sensor entity used to drive speed/color/size (unless entity_speed, entity_color, entity_size are set).
 - name: Optional title override shown on the card.
@@ -105,29 +105,29 @@ You can drive speed/color/size from the same entity, or separate entities.
 - entity_color: Drives palette interpolation (low → high color).
 - entity_size: Drives particle size and mist “density” feel.
 
-#Motion
+### Motion
 - mode: Default motion model (swarm = flocking, vortex = spiral/orbit field).
 - show_mode_toggle: Show a small button on the card to toggle swarm/vortex.
 
-##Performance
+### Performance
 - particle_count: Number of particles (more = nicer, higher CPU/GPU; swarm is heavier than vortex).
 - fps: Frame rate cap for the animation (higher = smoother, higher CPU/GPU).
 
-##Normalization (recommended: centered)
+### Normalization (recommended: centered)
 - normal: Center reference value (the “neutral” point where baselines apply).
 - low: Value treated as “low” (defaults to normal * 0.5 if omitted).
 - high: Value treated as “high” (defaults to normal * 1.5 if omitted).
 
-##Baselines at normal (0..1)
+### Baselines at normal (0..1)
 - normal_speed: Baseline particle movement at normal (0..1).
 - normal_color: Baseline palette position at normal (0..1).
 - normal_size: Baseline particle size at normal (0..1).
 
-##Visuals
+### Visuals
 - mist: Adds a soft “fog/cloud” layer behind particles for extra depth.
 - debug: Draws an overlay with live values/targets to help tuning.
 
-##Palette
+### Palette
 palette is a list of [stop, color] where stop is 0..1:
 ```yaml
 palette:
@@ -135,7 +135,7 @@ palette:
   - [0.5, "#ffff00"]
   - [1, "#ff0000"]
 ```
-##Advanced
+### Advanced
 - mist_ratio: Mist render resolution relative to the card size (lower = faster, higher = sharper).
 - lerp_factor: Smoothing factor for transitions (higher = snappier, lower = more “floaty”).
 
