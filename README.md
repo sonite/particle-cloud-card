@@ -4,7 +4,8 @@
 <p align="center">
   <img src="images/logo.png" width="120">
 </p>
-## Particle Cloud Card (Swarm + Cloud)
+
+# Particle Cloud Card (Swarm + Cloud)
 
 A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **ambient swarm** (boids / flocking) with an optional **cloud “mist” layer** — designed for power usage, but works with any numeric entity.
 
