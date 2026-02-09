@@ -1,4 +1,6 @@
+![GitHub release](https://img.shields.io/github/v/release/sonite/particle-cloud-card?include_prereleases)
 [![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 <p align="center">
   <img src="images/logo.png" width="120">
 </p>

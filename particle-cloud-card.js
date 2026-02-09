@@ -35,7 +35,7 @@ var t;const i=window,s$1=i.trustedTypes,e=s$1?s$1.createPolicy("lit-html",{creat
  *
  * Release: v0.1.0
  */
-
+// import { LitElement, html, css } from "https://unpkg.com/lit@2.8.0/index.js?module"; // For Local builds
 
 class ParticleCloudCard extends s {
   static get properties() {
@@ -104,7 +104,6 @@ class ParticleCloudCard extends s {
 
       // Visual toggles
       mist: true,
-      show_value: true,
       debug: false,
 
       // Palette
@@ -124,9 +123,12 @@ class ParticleCloudCard extends s {
   }
 
   set hass(hass) {
+    const old = this._hass;
     this._hass = hass;
-    this.requestUpdate();
+
     if (this._initialized) this._updateTargets();
+
+    this.requestUpdate("_hass", old); // ensures header refresh
   }
 
   // Helps HA layout estimate the card height
@@ -138,7 +140,12 @@ class ParticleCloudCard extends s {
   static getStubConfig() {
     return {
       type: "custom:particle-cloud-card",
-      entity: "sensor.temperature"
+      entity: "sensor.energy_power",
+      min: 0,
+      max: 10000,
+      particle_count: 180,
+      fps: 24,
+      mist: true,
     };
   }
 
@@ -270,7 +277,8 @@ class ParticleCloudCard extends s {
     //  - preserves low-end detail
     //  - compresses high spikes
     const logNorm = (x, min, max) => {
-      const mn = Math.max(1e-6, Number(min));
+      const mnRaw = Number(min);
+      const mn = Number.isFinite(mnRaw) && mnRaw > 0 ? mnRaw : 1e-3;
       const mx = Math.max(mn + 1e-6, Number(max));
       const xv = Number.isFinite(x) ? x : 0;
       const xc = Math.max(0, Math.min(xv, mx));
@@ -460,10 +468,10 @@ class ParticleCloudCard extends s {
     ctx.clearRect(0, 0, width, height);
 
     // ---- Mist / cloud density layer (under the swarm dots) ----
-    if (this._config.mist && this._mistCtx) {
+    if (this._config.mist && this._mistCtx && this._mistCanvas) {
       const mctx = this._mistCtx;
-      const mw = this._mistCanvas.width;
-      const mh = this._mistCanvas.height;
+      const mw = Math.max(1, this._mistCanvas.width);
+      const mh = Math.max(1, this._mistCanvas.height);
 
       // Clear mist buffer
       mctx.setTransform(1, 0, 0, 1, 0, 0);
@@ -674,10 +682,10 @@ class ParticleCloudCard extends s {
     const value = stateObj?.state;
     const unit = stateObj?.attributes?.unit_of_measurement || "";
 
-    const header =
-      name && value !== undefined
-        ? `${name} : ${value} ${unit}`.trim()
-        : name || "";
+    const hasValue = value !== undefined && value !== null && value !== "unknown" && value !== "unavailable";
+    const header = name
+      ? (hasValue ? `${name}: ${value} ${unit}`.trim() : name)
+      : "";
 
     return x`
       <ha-card .header=${header}>
@@ -724,11 +732,10 @@ customElements.define("particle-cloud-card", ParticleCloudCard);
 // Show up in the Lovelace card picker list
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "custom:particle-cloud-card",
+  type: "particle-cloud-card",
   name: "Particle Cloud Card",
   description: "Ambient swarm + mist particle visualization for numeric sensors",
-  preview: false,
+  preview: true,
   documentationURL: "https://github.com/sonite/particle-cloud-card",
   author: "Christian Gruffman",
 });
-//# sourceMappingURL=particle-cloud-card.js.map
