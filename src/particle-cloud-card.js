@@ -10,7 +10,8 @@
  * Release: v0.1.0
  */
 
-import { LitElement, html, css } from "lit";
+// Local development mode: import { LitElement, html, css } from "https://unpkg.com/lit@2.8.0/index.js?module
+import { LitElement, html, css } from "lit"; //release mode
 
 class ParticleCloudCard extends LitElement {
   static get properties() {
@@ -101,6 +102,11 @@ class ParticleCloudCard extends LitElement {
   set hass(hass) {
     this._hass = hass;
     if (this._initialized) this._updateTargets();
+  }
+
+  // Robustness: also update targets when HA triggers an update cycle
+  updated(changedProps) {
+    if (changedProps.has("_hass") && this._initialized) this._updateTargets();
   }
 
   // Helps HA layout estimate the card height
@@ -395,6 +401,8 @@ class ParticleCloudCard extends LitElement {
   // ------------------------------
 
   _startAnimation() {
+    if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+
     const animate = (now) => {
       this.animationFrame = requestAnimationFrame(animate);
 
@@ -612,24 +620,6 @@ class ParticleCloudCard extends LitElement {
       ctx.fill();
     }
 
-    // Optional value display (theme-aware)
-    if (this._config.show_value) {
-      ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = this._theme?.text || "rgba(255, 255, 255, 0.9)";
-      ctx.font = "bold 26px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      const displayEntity =
-        this._config.entity ||
-        this._config.entity_color ||
-        this._config.entity_speed ||
-        this._config.entity_size;
-
-      const raw = displayEntity ? this._hass.states[displayEntity]?.state : null;
-      ctx.fillText(raw ?? "-", centerX, centerY);
-    }
-
     // Debug overlay (optional)
     if (this._config.debug) {
       const ent = this._config.entity;
@@ -672,7 +662,7 @@ class ParticleCloudCard extends LitElement {
 
     const header =
       name && value !== undefined
-        ? `${name} · ${value} ${unit}`.trim()
+        ? `${name} : ${value} ${unit}`.trim()
         : name || "";
 
     return html`
@@ -720,7 +710,7 @@ customElements.define("particle-cloud-card", ParticleCloudCard);
 // Show up in the Lovelace card picker list
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "particle-cloud-card",
+  type: "custom:particle-cloud-card",
   name: "Particle Cloud Card",
   description: "Ambient swarm + mist particle visualization for numeric sensors",
   preview: true,

@@ -128,6 +128,11 @@ class ParticleCloudCard extends s {
     if (this._initialized) this._updateTargets();
   }
 
+  // Robustness: also update targets when HA triggers an update cycle
+  updated(changedProps) {
+    if (changedProps.has("_hass") && this._initialized) this._updateTargets();
+  }
+
   // Helps HA layout estimate the card height
   getCardSize() {
     return 3;
@@ -145,11 +150,6 @@ class ParticleCloudCard extends s {
       mist: true,
       show_value: true,
     };
-  }
-
-  // Optional hook for a config editor element (safe to include even if you don't provide one)
-  static getConfigElement() {
-    return document.createElement("hui-error-card");
   }
 
   // ------------------------------
@@ -425,6 +425,8 @@ class ParticleCloudCard extends s {
   // ------------------------------
 
   _startAnimation() {
+    if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
+
     const animate = (now) => {
       this.animationFrame = requestAnimationFrame(animate);
 
@@ -642,24 +644,6 @@ class ParticleCloudCard extends s {
       ctx.fill();
     }
 
-    // Optional value display (theme-aware)
-    if (this._config.show_value) {
-      ctx.globalCompositeOperation = "source-over";
-      ctx.fillStyle = this._theme?.text || "rgba(255, 255, 255, 0.9)";
-      ctx.font = "bold 26px sans-serif";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-
-      const displayEntity =
-        this._config.entity ||
-        this._config.entity_color ||
-        this._config.entity_speed ||
-        this._config.entity_size;
-
-      const raw = displayEntity ? this._hass.states[displayEntity]?.state : null;
-      ctx.fillText(raw ?? "-", centerX, centerY);
-    }
-
     // Debug overlay (optional)
     if (this._config.debug) {
       const ent = this._config.entity;
@@ -684,8 +668,29 @@ class ParticleCloudCard extends s {
   }
 
   render() {
+    const entityId =
+      this._config?.entity ||
+      this._config?.entity_speed ||
+      this._config?.entity_color ||
+      this._config?.entity_size;
+
+    const stateObj = entityId ? this._hass?.states?.[entityId] : null;
+
+    const name =
+      this._config?.name ||
+      stateObj?.attributes?.friendly_name ||
+      "";
+
+    const value = stateObj?.state;
+    const unit = stateObj?.attributes?.unit_of_measurement || "";
+
+    const header =
+      name && value !== undefined
+        ? `${name} : ${value} ${unit}`.trim()
+        : name || "";
+
     return x`
-      <ha-card>
+      <ha-card .header=${header}>
         <div class="container">
           <canvas></canvas>
         </div>
@@ -729,7 +734,7 @@ customElements.define("particle-cloud-card", ParticleCloudCard);
 // Show up in the Lovelace card picker list
 window.customCards = window.customCards || [];
 window.customCards.push({
-  type: "particle-cloud-card",
+  type: "custom:particle-cloud-card",
   name: "Particle Cloud Card",
   description: "Ambient swarm + mist particle visualization for numeric sensors",
   preview: true,

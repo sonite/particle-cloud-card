@@ -1,3 +1,5 @@
+[![HACS](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://hacs.xyz/)
+[![Particle Cloud Card](images/logo.png)](https://github.com/sonite/particle-cloud-card)
 # Particle Cloud Card (Swarm + Cloud)
 
 A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **ambient swarm** (boids / flocking) with an optional **cloud “mist” layer** — designed for power usage, but works with any numeric entity.
@@ -14,8 +16,8 @@ A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **a
 ## Screenshots
 
 Add your own screenshots here:
-- <p align="center"><img src="images/dark.png" width="600"></p>
-- <p align="center"><img src="images/light.png" width="600"></p>
+- <p align="center"><img src="images/low-PC.png" width="200"></p>
+- <p align="center"><img src="images/high-PC.png" width="200"></p>
 
 ---
 
@@ -57,7 +59,6 @@ type: custom:particle-cloud-card
 entity: sensor.ams_ec5d_p
 fps: 24
 particle_count: 320
-show_value: true
 
 # Range tuning (Watts) - adjust to your home
 speed_min: 200
@@ -110,6 +111,57 @@ palette:
   - [0.5, "#ffff00"]
   - [1, "#ff0000"]
 ```
+
+## 🔧 Demo Mode (Manual Slider)
+
+If you don’t have a suitable real sensor yet — or just want to explore and tune the visuals — you can drive the Particle Cloud Card using a **manual slider**.
+
+This is useful for:
+- Trying the card without real hardware
+- Tuning color, motion, and density
+- Screenshots / demos
+- Development and testing
+
+---
+
+### Step: Create a slider using the UI (recommended)
+
+1. Go to **Settings → Devices & Services → Helpers**
+2. Click **Create Helper**
+3. Choose **Number**
+4. Configure it as follows:
+
+| Setting | Value |
+|------|------|
+| **Name** | Particle Cloud Power |
+| **Minimum value** | `0` |
+| **Maximum value** | `11000` |
+| **Step size** | `50` |
+| **Unit of measurement** | `W` |
+| **Display mode** | Slider |
+
+Save.
+
+Home Assistant will create a helper named: input_number.particle_cloud_power
+
++ Add Card / By entity - find the helper name.
+
+
+---
+
+### Use the slider with the Particle Cloud Card
+```yaml
+type: custom:particle-cloud-card
+entity: input_number.particle_cloud_power
+min: 0
+max: 11000
+particle_count: 220
+mist: true
+show_value: false
+```
+
+---
+
 
 ## Credits
 Created by Christian Gruffman.
