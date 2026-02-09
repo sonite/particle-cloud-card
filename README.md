@@ -34,7 +34,7 @@ A Home Assistant Lovelace custom card that visualizes a numeric sensor as an **a
 5. Add the card to your dashboard
 
 ### Option B: Manual
-1. Copy `dist/particle-cloud-card.js` to:
+1. Copy `particle-cloud-card.js` to:
 
    `/config/www/particle-cloud-card.js`
 
@@ -60,6 +60,7 @@ Basic example:
 ```yaml
 type: custom:particle-cloud-card
 entity: sensor.ams_ec5d_p
+name: Power Consumption
 fps: 24
 particle_count: 320
 # Lower the particle cound if it lags
