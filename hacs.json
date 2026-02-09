@@ -2,6 +2,6 @@
   "name": "Particle Cloud Card",
   "content_in_root": false,
   "render_readme": true,
-  "filename": "particle-cloud-card.js"
+  "filename": "dist/particle-cloud-card.js"
   "logo": "logo.png"
 }
